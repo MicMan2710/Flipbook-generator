@@ -21,7 +21,7 @@ namespace Flipbook_generator
             InitializeComponent();
         }
 
-        private void ExportFile(int startPage, int endPage, PdfiumViewer.IPdfDocument document, string saveFilePath)
+        private void ExportFile(int startPage, int endPage, PdfiumViewer.IPdfDocument document, string saveFilePath, bool showLogo, bool hideShare)
         {
             int pages = endPage - startPage;
 
@@ -60,11 +60,11 @@ namespace Flipbook_generator
             reader.Dispose();
 
             //remove logo
-            if (!cbLogo.Checked)
+            if (!showLogo)
                 fileContent = fileContent.Replace(@"<img src='img\logo.png' style='position:absolute;left:15px;bottom:15px;z-index:100;height:auto;width:auto;max-width:16%;max-height:19%;'>", "");
 
             //remove share btn
-            if (!cbShare.Checked)
+            if (hideShare)
                 fileContent = fileContent.Replace(@"setTimeout(function(){$('#at-expanding-share-button').hide();},2000); //This", "");
 
             //Add number of pages
@@ -94,6 +94,7 @@ namespace Flipbook_generator
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
+            openFileDia.Multiselect = false;
             if (openFileDia.ShowDialog() == DialogResult.OK)
             {
                 txtFilePath.Text = openFileDia.FileName;
@@ -140,8 +141,10 @@ namespace Flipbook_generator
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //File exists
+            
             lblWait.Text = "Please wait. File export in progress...";
+
+            //File exists
             Application.DoEvents();
             if (!File.Exists(txtFilePath.Text))
             {
@@ -220,11 +223,11 @@ namespace Flipbook_generator
                 for (int i = 0; i < splits.Count+1; i++)
                 { 
                     if (i == 0) //if first split
-                        ExportFile(0, splits[i], document, dialog.FileName + @"\(1)" + filename);
+                        ExportFile(0, splits[i], document, dialog.FileName + @"\(1)" + filename, cbLogo.Checked, cbShare.Checked);
                     else if (i == splits.Count) //if last split
-                        ExportFile(splits[i - 1], pages, document, dialog.FileName + @"\(" + (i + 1).ToString() + ")" + filename);
+                        ExportFile(splits[i - 1], pages, document, dialog.FileName + @"\(" + (i + 1).ToString() + ")" + filename, cbLogo.Checked, cbShare.Checked);
                     else //if middle split
-                        ExportFile(splits[i - 1], splits[i], document, dialog.FileName + @"\(" + (i + 1).ToString() + ")" + filename);
+                        ExportFile(splits[i - 1], splits[i], document, dialog.FileName + @"\(" + (i + 1).ToString() + ")" + filename, cbLogo.Checked, cbShare.Checked);
                 }
             }
             else
@@ -239,12 +242,85 @@ namespace Flipbook_generator
                     return;
                 }
 
-                ExportFile(0, pages, document, savePath);
+                ExportFile(0, pages, document, savePath, cbLogo.Checked, cbShare.Checked);
             }
 
 
 
             lblWait.Text = "Export Completed.";
+        }
+
+        private List<string> pdfFiles;
+        private void btnLoadFiles_Click(object sender, EventArgs e)
+        {
+            openFileDia.Multiselect = true;
+            if (openFileDia.ShowDialog() == DialogResult.OK)
+            {
+                pdfFiles = openFileDia.FileNames.ToList();
+                lblFiles.Text = pdfFiles.Count.ToString() + " files selected.";
+                btnExports.Enabled = true;
+            }
+        }
+
+        private void btnExports_Click(object sender, EventArgs e)
+        {
+            lblWaitBulk.Text = "Please wait. File export in progress...";
+            Application.DoEvents();
+            
+            //Check selected files
+            if (pdfFiles.Count == 0 || pdfFiles == null)
+            {
+                MessageBox.Show("There are no selected PDF files to export.", "No files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            //folder picker
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() != CommonFileDialogResult.Ok)
+            {
+                lblWaitBulk.Text = "Export Canceled.";
+                return;
+            }
+
+            //Files exist
+            foreach (string file in pdfFiles)
+            {
+                if (!File.Exists(file))
+                {
+                    MessageBox.Show("The pdf file " + file + " could not be found.", "File not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    lblWaitBulk.Text = "Export Canceled.";
+                    return;
+                }
+            }
+
+            int count = 0;
+            foreach (string file in pdfFiles)
+            {
+                count++;
+                lblWaitBulk.Text = "Please wait. Exporting file " + count.ToString() + " of " + pdfFiles.Count.ToString();
+                Application.DoEvents();
+
+                //Load pdf
+                int pages;
+                PdfiumViewer.PdfDocument document;
+                try
+                {
+                    document = PdfiumViewer.PdfDocument.Load(file);
+                    pages = document.PageCount;
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Something went wrong while loading the PDF file. The file might be corrupt.", "PDF Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    lblWaitBulk.Text = "Export Canceled.";
+                    return;
+                }
+
+                string exportFile = dialog.FileName + @"\" + Path.GetFileNameWithoutExtension(file) + ".zip";
+                ExportFile(0, pages, document, exportFile, cbShowLogos.Checked, cbShare.Checked);
+            }
+
+            lblWaitBulk.Text = "Export Completed.";
         }
     }
 }
