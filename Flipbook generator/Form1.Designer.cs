@@ -43,7 +43,7 @@ namespace Flipbook_generator
             this.btnSave = new System.Windows.Forms.Button();
             this.lblWait = new System.Windows.Forms.Label();
             this.openFileDia = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveFileDia = new System.Windows.Forms.SaveFileDialog();
             this.label2 = new System.Windows.Forms.Label();
             this.btnExports = new System.Windows.Forms.Button();
             this.gbOptionsBulk = new System.Windows.Forms.GroupBox();
@@ -179,6 +179,8 @@ namespace Flipbook_generator
             this.txtSplits.Name = "txtSplits";
             this.txtSplits.Size = new System.Drawing.Size(145, 20);
             this.txtSplits.TabIndex = 2;
+            this.txtSplits.Enter += new System.EventHandler(this.txtSplits_Enter);
+            this.txtSplits.Leave += new System.EventHandler(this.txtSplits_Leave);
             // 
             // label1
             // 
@@ -198,6 +200,7 @@ namespace Flipbook_generator
             this.btnSave.TabIndex = 2;
             this.btnSave.Text = "Export Package";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // lblWait
             // 
@@ -213,6 +216,10 @@ namespace Flipbook_generator
             // 
             this.openFileDia.FileName = "openFileDialog1";
             this.openFileDia.Filter = "PDF|*.pdf";
+            // 
+            // saveFileDia
+            // 
+            this.saveFileDia.Filter = "ZIP|*.zip";
             // 
             // label2
             // 
@@ -307,6 +314,7 @@ namespace Flipbook_generator
             this.Controls.Add(this.tcTabs);
             this.Name = "frmMain";
             this.Text = "Flipbook generator";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMain_FormClosed);
             this.tcTabs.ResumeLayout(false);
             this.tpSingle.ResumeLayout(false);
             this.tpSingle.PerformLayout();
@@ -340,7 +348,7 @@ namespace Flipbook_generator
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.TextBox txtFilePath;
         private System.Windows.Forms.OpenFileDialog openFileDia;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDia;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnExports;
         private System.Windows.Forms.GroupBox gbOptionsBulk;
