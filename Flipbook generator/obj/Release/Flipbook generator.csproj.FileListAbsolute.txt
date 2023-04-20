@@ -1,0 +1,43 @@
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\icudt.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\x64\pdfium.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\x86\pdfium.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\libpdfium.dylib
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\Flipbook generator.exe.config
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\Flipbook generator.exe
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\Flipbook generator.pdb
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\Microsoft.WindowsAPICodePack.Core.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\Microsoft.WindowsAPICodePack.ExtendedLinguisticServices.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\Microsoft.WindowsAPICodePack.Sensors.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\Microsoft.WindowsAPICodePack.Shell.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\Microsoft.WindowsAPICodePack.ShellExtensions.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\Patagames.Pdf.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\Patagames.Pdf.WinForms.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\Patagames.Pdf.Wpf.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\PdfiumViewer.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\System.Configuration.ConfigurationManager.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\System.Drawing.Common.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\System.Security.AccessControl.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\System.Security.Permissions.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\System.Security.Principal.Windows.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\System.Windows.Forms.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\WindowsFormsIntegration.dll
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\Patagames.Pdf.xml
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\Patagames.Pdf.WinForms.xml
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\Patagames.Pdf.Wpf.xml
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\PdfiumViewer.xml
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\System.Configuration.ConfigurationManager.xml
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\System.Security.AccessControl.xml
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\System.Security.Permissions.xml
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\System.Security.Principal.Windows.xml
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\System.Windows.Forms.xml
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\WindowsFormsIntegration.xml
+D:\Github\Flipbook-generator\Flipbook generator\bin\Release\nl\PdfiumViewer.resources.dll
+D:\Github\Flipbook-generator\Flipbook generator\obj\Release\Flipbook generator.csproj.AssemblyReference.cache
+D:\Github\Flipbook-generator\Flipbook generator\obj\Release\Flipbook_generator.frmMain.resources
+D:\Github\Flipbook-generator\Flipbook generator\obj\Release\Flipbook_generator.Properties.Resources.resources
+D:\Github\Flipbook-generator\Flipbook generator\obj\Release\Flipbook generator.csproj.GenerateResource.cache
+D:\Github\Flipbook-generator\Flipbook generator\obj\Release\Flipbook generator.exe.licenses
+D:\Github\Flipbook-generator\Flipbook generator\obj\Release\Flipbook generator.csproj.CoreCompileInputs.cache
+D:\Github\Flipbook-generator\Flipbook generator\obj\Release\Flipbook generator.csproj.CopyComplete
+D:\Github\Flipbook-generator\Flipbook generator\obj\Release\Flipbook generator.exe
+D:\Github\Flipbook-generator\Flipbook generator\obj\Release\Flipbook generator.pdb
