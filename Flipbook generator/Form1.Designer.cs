@@ -154,6 +154,8 @@ namespace Flipbook_generator
             // cbLogo
             // 
             this.cbLogo.AutoSize = true;
+            this.cbLogo.Checked = true;
+            this.cbLogo.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbLogo.Location = new System.Drawing.Point(6, 19);
             this.cbLogo.Name = "cbLogo";
             this.cbLogo.Size = new System.Drawing.Size(76, 17);
@@ -164,6 +166,8 @@ namespace Flipbook_generator
             // cbShare
             // 
             this.cbShare.AutoSize = true;
+            this.cbShare.Checked = true;
+            this.cbShare.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbShare.Location = new System.Drawing.Point(6, 42);
             this.cbShare.Name = "cbShare";
             this.cbShare.Size = new System.Drawing.Size(128, 17);

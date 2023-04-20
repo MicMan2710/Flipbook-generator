@@ -72,10 +72,11 @@ namespace Flipbook_generator
 
             //Add individual pages
             string pagedata = "";
-            for (int i = 0; i < pages; i++)
+            int count = 0;
+            for (int i = startPage; i < endPage; i++)
             {
-                string pageNum = (i + 1).ToString();
-                pagedata += @"<meta class='page_data' page=" + pageNum + @" content='pages\page" + pageNum + ".jpg' />" + Environment.NewLine;
+                count++;
+                pagedata += @"<meta class='page_data' page=" + count.ToString() + @" content='pages\page" + (i+1).ToString() + ".jpg' />" + Environment.NewLine;
             }
 
             fileContent = fileContent.Replace("<!-- Page data here -->", pagedata);
@@ -213,16 +214,18 @@ namespace Flipbook_generator
                     lblWait.Text = "Export Canceled.";
                     return;
                 }
-                MessageBox.Show(dialog.FileName);
                 //export files
-                //splits.Sort();
-                //for (int i = 0; i < splits.Count; i++)
-                //{
-                //    if (i == 0)
-                //        ExportFile(0, splits[i], document, dialog.FileName);
-                //    else
-                //        ExportFile(splits[i - 1] + 1, splits[0], document, dialog.FileName);
-                //}
+                string filename = Path.GetFileNameWithoutExtension(txtFilePath.Text)+".zip";
+                splits.Sort();
+                for (int i = 0; i < splits.Count+1; i++)
+                { 
+                    if (i == 0) //if first split
+                        ExportFile(0, splits[i], document, dialog.FileName + @"\(1)" + filename);
+                    else if (i == splits.Count) //if last split
+                        ExportFile(splits[i - 1], pages, document, dialog.FileName + @"\(" + (i + 1).ToString() + ")" + filename);
+                    else //if middle split
+                        ExportFile(splits[i - 1], splits[i], document, dialog.FileName + @"\(" + (i + 1).ToString() + ")" + filename);
+                }
             }
             else
             {
