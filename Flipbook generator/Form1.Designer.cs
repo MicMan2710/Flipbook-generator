@@ -58,7 +58,6 @@ namespace Flipbook_generator
             this.cbDistraction = new System.Windows.Forms.CheckBox();
             this.cbDistractions = new System.Windows.Forms.CheckBox();
             this.cbOnlyLast = new System.Windows.Forms.CheckBox();
-            this.cbOnlyLasts = new System.Windows.Forms.CheckBox();
             this.lvlVer = new System.Windows.Forms.Label();
             this.tcTabs.SuspendLayout();
             this.tpSingle.SuspendLayout();
@@ -255,7 +254,6 @@ namespace Flipbook_generator
             this.gbOptionsBulk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbOptionsBulk.Controls.Add(this.cbOnlyLasts);
             this.gbOptionsBulk.Controls.Add(this.cbDistractions);
             this.gbOptionsBulk.Controls.Add(this.cbShares);
             this.gbOptionsBulk.Controls.Add(this.cbShowLogos);
@@ -378,7 +376,6 @@ namespace Flipbook_generator
             this.cbDistractions.TabIndex = 5;
             this.cbDistractions.Text = "Add distractions (Each file will have another distraction)";
             this.cbDistractions.UseVisualStyleBackColor = true;
-            this.cbDistractions.CheckedChanged += new System.EventHandler(this.cbDistractions_CheckedChanged);
             // 
             // cbOnlyLast
             // 
@@ -389,16 +386,6 @@ namespace Flipbook_generator
             this.cbOnlyLast.TabIndex = 5;
             this.cbOnlyLast.Text = "Only add distraction to last split (Only applies when splits are used)";
             this.cbOnlyLast.UseVisualStyleBackColor = true;
-            // 
-            // cbOnlyLasts
-            // 
-            this.cbOnlyLasts.AutoSize = true;
-            this.cbOnlyLasts.Location = new System.Drawing.Point(6, 88);
-            this.cbOnlyLasts.Name = "cbOnlyLasts";
-            this.cbOnlyLasts.Size = new System.Drawing.Size(336, 17);
-            this.cbOnlyLasts.TabIndex = 6;
-            this.cbOnlyLasts.Text = "Only add distraction to last split (Only applies when splits are used)";
-            this.cbOnlyLasts.UseVisualStyleBackColor = true;
             // 
             // lvlVer
             // 
@@ -470,7 +457,6 @@ namespace Flipbook_generator
         private System.Windows.Forms.CheckBox cbDistraction;
         private System.Windows.Forms.CheckBox cbDistractions;
         private System.Windows.Forms.CheckBox cbOnlyLast;
-        private System.Windows.Forms.CheckBox cbOnlyLasts;
         private System.Windows.Forms.Label lvlVer;
     }
 }

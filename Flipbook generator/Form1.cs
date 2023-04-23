@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,6 +19,7 @@ namespace Flipbook_generator
     {
         private List<string> distractionFiles;
         private static Random rnd = new Random();
+        private string exportDir;
         public frmMain()
         {
             InitializeComponent();
@@ -79,6 +81,10 @@ namespace Flipbook_generator
                 endPage++;
 
                 randomDistractionFile = distractionFiles[rnd.Next(0, distractionFiles.Count)];
+                
+                string path = exportDir + @"\distractions.txt";
+                string line = Environment.NewLine + Path.GetFileName(saveFilePath) + " : " + Path.GetFileNameWithoutExtension(randomDistractionFile);
+                File.AppendAllText(path, line);
             }
 
 
@@ -274,6 +280,12 @@ namespace Flipbook_generator
                     lblWait.Text = "Export Canceled.";
                     return;
                 }
+                exportDir = dialog.FileName;
+
+                //Delete distractions.txt
+                if (File.Exists(dialog.FileName + @"\distractions.txt"))
+                    File.Delete(dialog.FileName + @"\distractions.txt");
+
                 //export files
                 string filename = Path.GetFileNameWithoutExtension(txtFilePath.Text)+".zip";
                 splits.Sort();
@@ -298,7 +310,14 @@ namespace Flipbook_generator
                 //single file export
                 string savePath = "";
                 if (saveFileDia.ShowDialog() == DialogResult.OK)
+                {
                     savePath = saveFileDia.FileName;
+                    exportDir = Directory.GetParent(savePath).FullName;
+
+                    //Delete distractions.txt
+                    if (File.Exists(exportDir + @"\distractions.txt"))
+                        File.Delete(exportDir + @"\distractions.txt");
+                }  
                 else
                 {
                     lblWait.Text = "Export Canceled.";
@@ -311,6 +330,7 @@ namespace Flipbook_generator
 
 
             lblWait.Text = "Export Completed.";
+            SystemSounds.Beep.Play();
         }
 
         private List<string> pdfFiles;
@@ -339,12 +359,17 @@ namespace Flipbook_generator
             //folder picker
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
             dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            dialog.IsFolderPicker = true;
+            dialog.IsFolderPicker = true;            
             if (dialog.ShowDialog() != CommonFileDialogResult.Ok)
             {
                 lblWaitBulk.Text = "Export Canceled.";
                 return;
             }
+            exportDir = dialog.FileName;
+
+            //Delete distractions.txt
+            if (File.Exists(dialog.FileName + @"\distractions.txt"))
+                File.Delete(dialog.FileName + @"\distractions.txt");
 
             //Files exist
             foreach (string file in pdfFiles)
@@ -384,16 +409,12 @@ namespace Flipbook_generator
             }
 
             lblWaitBulk.Text = "Export Completed.";
+            SystemSounds.Beep.Play();
         }
 
         private void cbDistraction_CheckedChanged(object sender, EventArgs e)
         {
             cbOnlyLast.Enabled = cbDistraction.Checked;
-        }
-
-        private void cbDistractions_CheckedChanged(object sender, EventArgs e)
-        {
-            cbOnlyLasts.Enabled = cbDistractions.Checked;
         }
     }
 }
