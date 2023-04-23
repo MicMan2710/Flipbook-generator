@@ -57,6 +57,9 @@ namespace Flipbook_generator
             this.saveFileDia = new System.Windows.Forms.SaveFileDialog();
             this.cbDistraction = new System.Windows.Forms.CheckBox();
             this.cbDistractions = new System.Windows.Forms.CheckBox();
+            this.cbOnlyLast = new System.Windows.Forms.CheckBox();
+            this.cbOnlyLasts = new System.Windows.Forms.CheckBox();
+            this.lvlVer = new System.Windows.Forms.Label();
             this.tcTabs.SuspendLayout();
             this.tpSingle.SuspendLayout();
             this.gbOptionsSingle.SuspendLayout();
@@ -78,7 +81,7 @@ namespace Flipbook_generator
             this.tcTabs.Location = new System.Drawing.Point(12, 12);
             this.tcTabs.Name = "tcTabs";
             this.tcTabs.SelectedIndex = 0;
-            this.tcTabs.Size = new System.Drawing.Size(506, 268);
+            this.tcTabs.Size = new System.Drawing.Size(506, 287);
             this.tcTabs.TabIndex = 0;
             // 
             // tpSingle
@@ -90,7 +93,7 @@ namespace Flipbook_generator
             this.tpSingle.Location = new System.Drawing.Point(4, 22);
             this.tpSingle.Name = "tpSingle";
             this.tpSingle.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSingle.Size = new System.Drawing.Size(498, 242);
+            this.tpSingle.Size = new System.Drawing.Size(498, 261);
             this.tpSingle.TabIndex = 0;
             this.tpSingle.Text = "Single file export";
             this.tpSingle.UseVisualStyleBackColor = true;
@@ -99,7 +102,7 @@ namespace Flipbook_generator
             // 
             this.lblWait.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblWait.AutoSize = true;
-            this.lblWait.Location = new System.Drawing.Point(9, 218);
+            this.lblWait.Location = new System.Drawing.Point(9, 237);
             this.lblWait.Name = "lblWait";
             this.lblWait.Size = new System.Drawing.Size(10, 13);
             this.lblWait.TabIndex = 3;
@@ -108,7 +111,7 @@ namespace Flipbook_generator
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(375, 213);
+            this.btnSave.Location = new System.Drawing.Point(375, 232);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(117, 23);
             this.btnSave.TabIndex = 2;
@@ -121,6 +124,7 @@ namespace Flipbook_generator
             this.gbOptionsSingle.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbOptionsSingle.Controls.Add(this.cbOnlyLast);
             this.gbOptionsSingle.Controls.Add(this.cbDistraction);
             this.gbOptionsSingle.Controls.Add(this.label1);
             this.gbOptionsSingle.Controls.Add(this.txtSplits);
@@ -128,7 +132,7 @@ namespace Flipbook_generator
             this.gbOptionsSingle.Controls.Add(this.cbLogo);
             this.gbOptionsSingle.Location = new System.Drawing.Point(6, 71);
             this.gbOptionsSingle.Name = "gbOptionsSingle";
-            this.gbOptionsSingle.Size = new System.Drawing.Size(486, 136);
+            this.gbOptionsSingle.Size = new System.Drawing.Size(486, 155);
             this.gbOptionsSingle.TabIndex = 1;
             this.gbOptionsSingle.TabStop = false;
             this.gbOptionsSingle.Text = "Options";
@@ -219,7 +223,7 @@ namespace Flipbook_generator
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(498, 242);
+            this.tabPage2.Size = new System.Drawing.Size(498, 261);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Bulk Export";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -228,7 +232,7 @@ namespace Flipbook_generator
             // 
             this.lblWaitBulk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblWaitBulk.AutoSize = true;
-            this.lblWaitBulk.Location = new System.Drawing.Point(9, 218);
+            this.lblWaitBulk.Location = new System.Drawing.Point(9, 237);
             this.lblWaitBulk.Name = "lblWaitBulk";
             this.lblWaitBulk.Size = new System.Drawing.Size(10, 13);
             this.lblWaitBulk.TabIndex = 7;
@@ -238,7 +242,7 @@ namespace Flipbook_generator
             // 
             this.btnExports.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExports.Enabled = false;
-            this.btnExports.Location = new System.Drawing.Point(375, 208);
+            this.btnExports.Location = new System.Drawing.Point(375, 227);
             this.btnExports.Name = "btnExports";
             this.btnExports.Size = new System.Drawing.Size(117, 23);
             this.btnExports.TabIndex = 6;
@@ -251,12 +255,13 @@ namespace Flipbook_generator
             this.gbOptionsBulk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbOptionsBulk.Controls.Add(this.cbOnlyLasts);
             this.gbOptionsBulk.Controls.Add(this.cbDistractions);
             this.gbOptionsBulk.Controls.Add(this.cbShares);
             this.gbOptionsBulk.Controls.Add(this.cbShowLogos);
             this.gbOptionsBulk.Location = new System.Drawing.Point(6, 71);
             this.gbOptionsBulk.Name = "gbOptionsBulk";
-            this.gbOptionsBulk.Size = new System.Drawing.Size(486, 131);
+            this.gbOptionsBulk.Size = new System.Drawing.Size(486, 150);
             this.gbOptionsBulk.TabIndex = 5;
             this.gbOptionsBulk.TabStop = false;
             this.gbOptionsBulk.Text = "Options";
@@ -319,11 +324,12 @@ namespace Flipbook_generator
             // 
             // tpHelp
             // 
+            this.tpHelp.Controls.Add(this.lvlVer);
             this.tpHelp.Controls.Add(this.lblInfo);
             this.tpHelp.Location = new System.Drawing.Point(4, 22);
             this.tpHelp.Name = "tpHelp";
             this.tpHelp.Padding = new System.Windows.Forms.Padding(3);
-            this.tpHelp.Size = new System.Drawing.Size(552, 311);
+            this.tpHelp.Size = new System.Drawing.Size(498, 261);
             this.tpHelp.TabIndex = 2;
             this.tpHelp.Text = "Info";
             this.tpHelp.UseVisualStyleBackColor = true;
@@ -335,7 +341,7 @@ namespace Flipbook_generator
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblInfo.Location = new System.Drawing.Point(6, 3);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(540, 223);
+            this.lblInfo.Size = new System.Drawing.Size(486, 173);
             this.lblInfo.TabIndex = 0;
             this.lblInfo.Text = resources.GetString("lblInfo.Text");
             // 
@@ -355,10 +361,11 @@ namespace Flipbook_generator
             this.cbDistraction.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbDistraction.Location = new System.Drawing.Point(6, 94);
             this.cbDistraction.Name = "cbDistraction";
-            this.cbDistraction.Size = new System.Drawing.Size(285, 17);
+            this.cbDistraction.Size = new System.Drawing.Size(295, 17);
             this.cbDistraction.TabIndex = 4;
-            this.cbDistraction.Text = "Add distraction (Each split will have another distraction)";
+            this.cbDistraction.Text = "Add distraction/s (Each split will have another distraction)";
             this.cbDistraction.UseVisualStyleBackColor = true;
+            this.cbDistraction.CheckedChanged += new System.EventHandler(this.cbDistraction_CheckedChanged);
             // 
             // cbDistractions
             // 
@@ -367,16 +374,47 @@ namespace Flipbook_generator
             this.cbDistractions.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbDistractions.Location = new System.Drawing.Point(6, 65);
             this.cbDistractions.Name = "cbDistractions";
-            this.cbDistractions.Size = new System.Drawing.Size(280, 17);
+            this.cbDistractions.Size = new System.Drawing.Size(285, 17);
             this.cbDistractions.TabIndex = 5;
-            this.cbDistractions.Text = "Add distraction (Each file will have another distraction)";
+            this.cbDistractions.Text = "Add distractions (Each file will have another distraction)";
             this.cbDistractions.UseVisualStyleBackColor = true;
+            this.cbDistractions.CheckedChanged += new System.EventHandler(this.cbDistractions_CheckedChanged);
+            // 
+            // cbOnlyLast
+            // 
+            this.cbOnlyLast.AutoSize = true;
+            this.cbOnlyLast.Location = new System.Drawing.Point(6, 117);
+            this.cbOnlyLast.Name = "cbOnlyLast";
+            this.cbOnlyLast.Size = new System.Drawing.Size(336, 17);
+            this.cbOnlyLast.TabIndex = 5;
+            this.cbOnlyLast.Text = "Only add distraction to last split (Only applies when splits are used)";
+            this.cbOnlyLast.UseVisualStyleBackColor = true;
+            // 
+            // cbOnlyLasts
+            // 
+            this.cbOnlyLasts.AutoSize = true;
+            this.cbOnlyLasts.Location = new System.Drawing.Point(6, 88);
+            this.cbOnlyLasts.Name = "cbOnlyLasts";
+            this.cbOnlyLasts.Size = new System.Drawing.Size(336, 17);
+            this.cbOnlyLasts.TabIndex = 6;
+            this.cbOnlyLasts.Text = "Only add distraction to last split (Only applies when splits are used)";
+            this.cbOnlyLasts.UseVisualStyleBackColor = true;
+            // 
+            // lvlVer
+            // 
+            this.lvlVer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lvlVer.AutoSize = true;
+            this.lvlVer.Location = new System.Drawing.Point(6, 245);
+            this.lvlVer.Name = "lvlVer";
+            this.lvlVer.Size = new System.Drawing.Size(47, 13);
+            this.lvlVer.TabIndex = 1;
+            this.lvlVer.Text = "Ver 1.03";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(530, 292);
+            this.ClientSize = new System.Drawing.Size(530, 311);
             this.Controls.Add(this.tcTabs);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -397,6 +435,7 @@ namespace Flipbook_generator
             this.gbImports.ResumeLayout(false);
             this.gbImports.PerformLayout();
             this.tpHelp.ResumeLayout(false);
+            this.tpHelp.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -430,6 +469,9 @@ namespace Flipbook_generator
         private System.Windows.Forms.Label lblInfo;
         private System.Windows.Forms.CheckBox cbDistraction;
         private System.Windows.Forms.CheckBox cbDistractions;
+        private System.Windows.Forms.CheckBox cbOnlyLast;
+        private System.Windows.Forms.CheckBox cbOnlyLasts;
+        private System.Windows.Forms.Label lvlVer;
     }
 }
 

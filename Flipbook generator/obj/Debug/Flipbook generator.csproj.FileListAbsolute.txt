@@ -41,3 +41,7 @@ D:\Github\Flipbook-generator\Flipbook generator\obj\Debug\Flipbook generator.csp
 D:\Github\Flipbook-generator\Flipbook generator\obj\Debug\Flipbook generator.csproj.CopyComplete
 D:\Github\Flipbook-generator\Flipbook generator\obj\Debug\Flipbook generator.exe
 D:\Github\Flipbook-generator\Flipbook generator\obj\Debug\Flipbook generator.pdb
+D:\Github\Flipbook-generator\Flipbook generator\bin\Debug\Flipbook generator.exe.manifest
+D:\Github\Flipbook-generator\Flipbook generator\bin\Debug\Flipbook generator.application
+D:\Github\Flipbook-generator\Flipbook generator\obj\Debug\Flipbook generator.exe.manifest
+D:\Github\Flipbook-generator\Flipbook generator\obj\Debug\Flipbook generator.application

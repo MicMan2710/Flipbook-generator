@@ -16,14 +16,33 @@ namespace Flipbook_generator
 {
     public partial class frmMain : Form
     {
+        private List<string> distractionFiles;
+        private static Random rnd = new Random();
         public frmMain()
         {
             InitializeComponent();
+
+            //Check and load files
+            try
+            {
+                distractionFiles = Directory.GetFiles(@"files\distractions\").ToList();
+                if (distractionFiles.Count != 9)
+                {
+                    throw new FileLoadException("The application is missing files to function correctly.");
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("The application is missing files to function correctly.", "Missing files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
         }
 
-        private void ExportFile(int startPage, int endPage, PdfiumViewer.IPdfDocument document, string saveFilePath, bool showLogo, bool hideShare)
+        private void ExportFile(int startPage, int endPage, PdfiumViewer.IPdfDocument document, string saveFilePath, bool showLogo, bool hideShare, bool showDistraction)
         {
             int pages = endPage - startPage;
+            if (showDistraction)
+                pages++;
 
             //Delete tmp folder if exists
             if (Directory.Exists("tmp"))
@@ -47,11 +66,45 @@ namespace Flipbook_generator
                 return;
             }
 
+            //Distraction page calculations
+            int distractionPageNum = -1;
+            string randomDistractionFile = "";
+            if (showDistraction)
+            {
+                if (pages > 3)
+                    distractionPageNum = endPage - 3;
+                else
+                    distractionPageNum = endPage - 1;
+
+                endPage++;
+
+                randomDistractionFile = distractionFiles[rnd.Next(0, distractionFiles.Count)];
+            }
+
+
             //export page imgs
+            bool afterDistractionPage = false;
+            int index;
+            List<string> pageFiles = new List<string>();
             for (int i = startPage; i < endPage; i++)
             {
-                var image = document.Render(i, 1000, 1413, 300, 300, true);
-                image.Save(@"tmp/pages/page" + (i + 1).ToString() + ".jpg", ImageFormat.Jpeg);
+                if (afterDistractionPage)
+                    index = i - 1;
+                else
+                    index = i;
+                
+                if (i == distractionPageNum)
+                {
+                    pageFiles.Add(@"pages\page" + (i + 1).ToString() + ".gif");
+                    File.Copy(randomDistractionFile, "tmp/pages/page" + (i+1).ToString() + ".gif");
+                    afterDistractionPage = true;
+                }
+                else
+                {
+                    var image = document.Render(index, 1000, 1413, 300, 300, true);
+                    pageFiles.Add(@"pages\page" + (i + 1).ToString() + ".jpg");
+                    image.Save(@"tmp/pages/page" + (i + 1).ToString() + ".jpg", ImageFormat.Jpeg);
+                }
             }
 
             StreamReader reader = new StreamReader(File.OpenRead("tmp/index.html"));
@@ -70,13 +123,13 @@ namespace Flipbook_generator
             //Add number of pages
             fileContent = fileContent.Replace("numPages: 1", "numPages: " + pages.ToString());
 
-            //Add individual pages
+            //Add individual pages to code
             string pagedata = "";
             int count = 0;
             for (int i = startPage; i < endPage; i++)
             {
                 count++;
-                pagedata += @"<meta class='page_data' page=" + count.ToString() + @" content='pages\page" + (i+1).ToString() + ".jpg' />" + Environment.NewLine;
+                pagedata += @"<meta class='page_data' page=" + count.ToString() + @" content='" + pageFiles[count-1] + "' />" + Environment.NewLine;
             }
 
             fileContent = fileContent.Replace("<!-- Page data here -->", pagedata);
@@ -181,6 +234,7 @@ namespace Flipbook_generator
                 {
                     txtSplits.ForeColor = Color.Red;
                     MessageBox.Show("Please enter valad numbers for the page spits.", "Invalad number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    lblWait.Text = "Export Canceled.";
                     return;
                 }
 
@@ -190,6 +244,7 @@ namespace Flipbook_generator
                     {
                         txtSplits.ForeColor = Color.Red;
                         MessageBox.Show("Page numbers should start at 1.", "Invalad number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        lblWait.Text = "Export Canceled.";
                         return;
                     }
 
@@ -197,6 +252,7 @@ namespace Flipbook_generator
                     {
                         txtSplits.ForeColor = Color.Red;
                         MessageBox.Show("There are only " + pages.ToString() + " pages in the selected PDF.", "Invalad number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        lblWait.Text = "Export Canceled.";
                         return;
                     }
                 }
@@ -205,6 +261,7 @@ namespace Flipbook_generator
                 {
                     txtSplits.ForeColor = Color.Red;
                     MessageBox.Show("Please do not enter duplicate page numbers.", "Invalad number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    lblWait.Text = "Export Canceled.";
                     return;
                 }
 
@@ -221,14 +278,20 @@ namespace Flipbook_generator
                 string filename = Path.GetFileNameWithoutExtension(txtFilePath.Text)+".zip";
                 splits.Sort();
                 for (int i = 0; i < splits.Count+1; i++)
-                { 
+                {
                     if (i == 0) //if first split
-                        ExportFile(0, splits[i], document, dialog.FileName + @"\(1)" + filename, cbLogo.Checked, cbShare.Checked);
+                    {
+                        ExportFile(0, splits[i], document, dialog.FileName + @"\(1)" + filename, cbLogo.Checked, cbShare.Checked, cbDistraction.Checked && (cbOnlyLast.Checked == false));
+                    }
                     else if (i == splits.Count) //if last split
-                        ExportFile(splits[i - 1], pages, document, dialog.FileName + @"\(" + (i + 1).ToString() + ")" + filename, cbLogo.Checked, cbShare.Checked);
+                    {
+                        ExportFile(splits[i - 1], pages, document, dialog.FileName + @"\(" + (i + 1).ToString() + ")" + filename, cbLogo.Checked, cbShare.Checked, cbDistraction.Checked);
+                    }
                     else //if middle split
-                        ExportFile(splits[i - 1], splits[i], document, dialog.FileName + @"\(" + (i + 1).ToString() + ")" + filename, cbLogo.Checked, cbShare.Checked);
-                }
+                    {
+                        ExportFile(splits[i - 1], splits[i], document, dialog.FileName + @"\(" + (i + 1).ToString() + ")" + filename, cbLogo.Checked, cbShare.Checked, cbDistraction.Checked && (cbOnlyLast.Checked==false));
+                    }
+                }  
             }
             else
             {
@@ -242,7 +305,7 @@ namespace Flipbook_generator
                     return;
                 }
 
-                ExportFile(0, pages, document, savePath, cbLogo.Checked, cbShare.Checked);
+                ExportFile(0, pages, document, savePath, cbLogo.Checked, cbShare.Checked, cbDistraction.Checked);
             }
 
 
@@ -317,10 +380,20 @@ namespace Flipbook_generator
                 }
 
                 string exportFile = dialog.FileName + @"\" + Path.GetFileNameWithoutExtension(file) + ".zip";
-                ExportFile(0, pages, document, exportFile, cbShowLogos.Checked, cbShare.Checked);
+                ExportFile(0, pages, document, exportFile, cbShowLogos.Checked, cbShare.Checked, cbDistractions.Checked);
             }
 
             lblWaitBulk.Text = "Export Completed.";
+        }
+
+        private void cbDistraction_CheckedChanged(object sender, EventArgs e)
+        {
+            cbOnlyLast.Enabled = cbDistraction.Checked;
+        }
+
+        private void cbDistractions_CheckedChanged(object sender, EventArgs e)
+        {
+            cbOnlyLasts.Enabled = cbDistractions.Checked;
         }
     }
 }
