@@ -40,7 +40,7 @@ namespace Flipbook_generator
             }
         }
 
-        private void ExportFile(int startPage, int endPage, PdfiumViewer.IPdfDocument document, string saveFilePath, bool showLogo, bool hideShare, bool showDistraction)
+        private void ExportFile(int startPage, int endPage, PdfiumViewer.IPdfDocument document, string saveFilePath, bool showLogo, bool hideShare, bool showDistraction, bool isPortrait)
         {
             int pages = endPage - startPage;
             if (showDistraction)
@@ -87,7 +87,6 @@ namespace Flipbook_generator
                 File.AppendAllText(path, line);
             }
 
-
             //export page imgs
             bool afterDistractionPage = false;
             int index;
@@ -98,7 +97,7 @@ namespace Flipbook_generator
                     index = i - 1;
                 else
                     index = i;
-                
+                //if current page is distraction page
                 if (i == distractionPageNum)
                 {
                     pageFiles.Add(@"pages\page" + (i + 1).ToString() + ".gif");
@@ -107,7 +106,12 @@ namespace Flipbook_generator
                 }
                 else
                 {
-                    var image = document.Render(index, 1000, 1413, 300, 300, true);
+                    Image image;
+                    if (isPortrait)
+                        image = document.Render(index, 1000, 1413, 300, 300, true);
+                    else
+                        image = document.Render(index, 1413, 1000, 300, 300, true);
+
                     pageFiles.Add(@"pages\page" + (i + 1).ToString() + ".jpg");
                     image.Save(@"tmp/pages/page" + (i + 1).ToString() + ".jpg", ImageFormat.Jpeg);
                 }
@@ -128,6 +132,13 @@ namespace Flipbook_generator
 
             //Add number of pages
             fileContent = fileContent.Replace("numPages: 1", "numPages: " + pages.ToString());
+
+            //set page size depending on page orientation
+            if (!isPortrait)
+            {
+                fileContent = fileContent.Replace("widthimg: '612'", "widthimg: '792'");
+                fileContent = fileContent.Replace("heightimg: '792'", "heightimg: '612'");
+            }
 
             //Add individual pages to code
             string pagedata = "";
@@ -293,15 +304,15 @@ namespace Flipbook_generator
                 {
                     if (i == 0) //if first split
                     {
-                        ExportFile(0, splits[i], document, dialog.FileName + @"\(1)" + filename, cbLogo.Checked, cbShare.Checked, cbDistraction.Checked && (cbOnlyLast.Checked == false));
+                        ExportFile(0, splits[i], document, dialog.FileName + @"\(1)" + filename, cbLogo.Checked, cbShare.Checked, cbDistraction.Checked && (cbOnlyLast.Checked == false), rbPortrait_S.Checked);
                     }
                     else if (i == splits.Count) //if last split
                     {
-                        ExportFile(splits[i - 1], pages, document, dialog.FileName + @"\(" + (i + 1).ToString() + ")" + filename, cbLogo.Checked, cbShare.Checked, cbDistraction.Checked);
+                        ExportFile(splits[i - 1], pages, document, dialog.FileName + @"\(" + (i + 1).ToString() + ")" + filename, cbLogo.Checked, cbShare.Checked, cbDistraction.Checked, rbPortrait_S.Checked);
                     }
                     else //if middle split
                     {
-                        ExportFile(splits[i - 1], splits[i], document, dialog.FileName + @"\(" + (i + 1).ToString() + ")" + filename, cbLogo.Checked, cbShare.Checked, cbDistraction.Checked && (cbOnlyLast.Checked==false));
+                        ExportFile(splits[i - 1], splits[i], document, dialog.FileName + @"\(" + (i + 1).ToString() + ")" + filename, cbLogo.Checked, cbShare.Checked, cbDistraction.Checked && (cbOnlyLast.Checked==false), rbPortrait_S.Checked);
                     }
                 }  
             }
@@ -324,7 +335,7 @@ namespace Flipbook_generator
                     return;
                 }
 
-                ExportFile(0, pages, document, savePath, cbLogo.Checked, cbShare.Checked, cbDistraction.Checked);
+                ExportFile(0, pages, document, savePath, cbLogo.Checked, cbShare.Checked, cbDistraction.Checked, rbPortrait_S.Checked);
             }
 
 
@@ -405,7 +416,7 @@ namespace Flipbook_generator
                 }
 
                 string exportFile = dialog.FileName + @"\" + Path.GetFileNameWithoutExtension(file) + ".zip";
-                ExportFile(0, pages, document, exportFile, cbShowLogos.Checked, cbShare.Checked, cbDistractions.Checked);
+                ExportFile(0, pages, document, exportFile, cbShowLogos.Checked, cbShare.Checked, cbDistractions.Checked, rbPortrait_B.Checked);
             }
 
             lblWaitBulk.Text = "Export Completed.";

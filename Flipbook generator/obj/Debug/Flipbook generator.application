@@ -7,14 +7,14 @@
     <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Flipbook generator.exe.manifest" size="15375">
+    <dependentAssembly dependencyType="install" codebase="Flipbook generator.exe.manifest" size="15856">
       <assemblyIdentity name="Flipbook generator.exe" version="1.0.0.3" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>esNuKe8kOot6HxReUzJbLMJIRGGwV6VzDWG4S4P5Iww=</dsig:DigestValue>
+        <dsig:DigestValue>sW6rry+DHknInmew9jKIttP13Aw0RbWa9N6SUEgD614=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
